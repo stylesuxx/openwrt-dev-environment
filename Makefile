@@ -255,7 +255,6 @@ auto_build_beta: \
 	clean \
 	openwrt_env \
 	apply_piratebox_beta_feed \
-	switch_scripts_to_dev \
 	update_all_feeds \
 	install_piratebox_feed \
 	create_piratebox_script_image \
@@ -273,6 +272,7 @@ auto_build_snapshot: \
 	openwrt_env \
 	apply_local_feed \
 	switch_local_feed_to_dev \
+	switch_scripts_to_dev \
 	update_all_feeds \
 	copy_image_board \
 	install_local_feed \
