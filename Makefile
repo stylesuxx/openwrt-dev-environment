@@ -36,7 +36,7 @@ PACKAGE_PIRATEBOX_GIT=https://github.com/PirateBox-Dev/package-openwrt-piratebox
 
 # PirateBox-image files, which are used in the package
 PIRATEBOXSCRIPTS_GIT=https://github.com/PirateBox-Dev/PirateBoxScripts_Webserver.git
-PIRATEBOXSCRIPTS=PirateBoxScripts_Webserver/
+PIRATEBOXSCRIPTS=$(HERE)/PirateBoxScripts_Webserver/
 
 # The default make target.
 # Display some information about the available targets.
@@ -89,7 +89,7 @@ create_piratebox_script_image: $(PIRATEBOXSCRIPTS)
 
 # Clone the PirateBoxScripts repository
 $(PIRATEBOXSCRIPTS):
-	git clone $(PIRATEBOXSCRIPTS_GIT) $@
+	git clone $(PIRATEBOXSCRIPTS_GIT) $(PIRATEBOXSCRIPTS)
 
 # Apply the PirateBox feed
 apply_piratebox_feed: $(OPENWRT_FEED_FILE)
@@ -126,6 +126,9 @@ switch_local_feed_to_dev:
 	$(call git_checkout_development, $(LOCAL_FEED_FOLDER)/extendRoot)
 # no dev branch for usb config scripts yet
 #	$(call git_checkout_development, $(LOCAL_FEED_FOLDER)/usb-config-scripts)
+
+switch_scripts_to_dev:
+	$(call git_checkout_development, $(PIRATEBOXSCRIPTS))
 
 define git_checkout_development
 	cd $(1) && git checkout development
@@ -252,6 +255,7 @@ auto_build_beta: \
 	clean \
 	openwrt_env \
 	apply_piratebox_beta_feed \
+	switch_scripts_to_dev \
 	update_all_feeds \
 	install_piratebox_feed \
 	create_piratebox_script_image \
